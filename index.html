@@ -1,0 +1,159 @@
+<html>
+  <head>
+    <title>HTML&CSS Machine</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="jquery-ui/jquery-ui.js"></script>
+    <link href="jquery-ui/jquery-ui.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/machine.css" type="text/css" media="all">
+  </head>
+  <body>
+    <div id="contentWrap">
+    <div id="banner">
+      <div class="gearWrap">
+        <img src="images/AnimatedGears.gif"></div>
+      <div id="bannerHeading">
+        <h1>The HTML and CSS Machine</h1>
+      </div>
+      <div class="gearWrap">
+        <img src="images/AnimatedGears.gif"></div>
+    </div>
+
+     <div id="pictureWrap">
+     <div id="language-options">
+
+         <div class="button active " id="html-button">HTML</div>
+         <div class="button  " id="css-button">CSS</div>
+         <div class="button active " id="output-button">Output</div>
+
+
+     </div>
+    <div id="language-containers">
+      <textarea class="pannel" id="html"><h1>Hey!</h1></textarea>
+      <textarea class="pannel hide" id="css">h1{
+color:red;
+} </textarea>
+      <textarea class="pannel hide" id="javaScript">alert("hi there!)  </textarea>
+      <iframe class="pannel" id="output">
+      </iframe>
+    </div>
+
+  </div>
+  <div id="credit">
+  <a href="https://www.freepik.com/vectors/technology">Technology vector created by upklyak - www.freepik.com</a>
+</div>
+</div>
+
+
+<script type="text/javaScript">
+
+function updateOutput(){
+$("iframe").contents().find("html").html("<html><head><style type='text/css'>" + $("#css").val() + "</style></head>"  + $("#html").val());
+};
+
+function changeWindowSize(){
+var languageContainerHeight = $("#language-containers").height();
+var activeWindows = $('.active').length;
+  if (activeWindows == 1) {
+   $(".pannel").css("width","80%")
+   $("#language-containers").css("grid-template-columns","1fr")
+ } else if (activeWindows == 2) {
+     $(".pannel").css("width","80%")
+     $("#language-containers").css("grid-template-columns","1fr 2fr")
+ } else if  (activeWindows == 3 ){
+     $(".pannel").css("width","80%")
+     $("#language-containers").css("grid-template-columns","1fr 1fr 2fr")
+} else if (activeWindows == 0){
+
+  $("#language-containers").css("height",languageContainerHeight +'px');
+}
+};
+
+function smallScreen(){
+
+  var activeWindows = $('.active').length;
+  var languageContainerHeight = $("#language-containers").height();
+  var pictureWrapHeight= 250 + ($(".pannel").height() * activeWindows);
+
+;
+  $("#language-containers").css("grid-template-columns","1fr")
+  $(".pannel").css("margin-bottom","20px")
+  $(".pannel").css("height","300px");
+  $("#pictureWrap").css("height",pictureWrapHeight )
+
+
+  if (activeWindows == 0){
+    var activeWindows = 1
+    var pictureWrapHeight= 250 + ($(".pannel").height() * activeWindows);
+    $("#pictureWrap").css("height",pictureWrapHeight )
+
+  }
+
+};
+
+
+/* Buttons */
+$(".button").hover(function(){
+ $(this).addClass("hover");
+
+}, function() {
+  $(this).removeClass("hover");
+
+});
+
+if($(window).width() > 500){
+  $(".button" ).on( "click",function(){
+    $( this ).toggleClass( "active hover");
+       changeWindowSize()
+     });
+}
+else { $(".button" ).on("click",function(){
+  $( this ).toggleClass( "active hover");
+  smallScreen();
+});
+};
+
+
+
+  /*Hides and Shows windows*/
+
+
+      $("#html-button" ).on( "click", function() {
+        $("#html" ).toggleClass( "hide");
+      });
+      $("#css-button" ).on( "click", function() {
+        $("#css" ).toggleClass( "hide");
+      });
+      $("#javaScript-button" ).on( "click", function() {
+        $("#javaScript" ).toggleClass( "show");
+      });
+      $("#output-button" ).on( "click", function() {
+        $("#output" ).toggleClass( "hide");
+      });
+/*Pannel Width and Height */
+if($(window).width() < 500){
+  smallScreen()
+} else {
+  $("#pictureWrap").height($(window).height());
+  $(".pannel").height($(window).height() /1.5 - $("#banner").height());
+  $(".pannel").css("width","70%")
+};
+
+
+
+
+
+/*Display HTML in an Iframe */
+
+updateOutput();
+
+
+$("textarea").on('change keyup paste', function(){
+updateOutput();
+
+});
+
+   </script>
+ </body>
+  </html>
